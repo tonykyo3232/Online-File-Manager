@@ -1,0 +1,51 @@
+package ofm;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(value = "/")
+public class FileController {
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+	private final FileRepository fileRepository;
+
+	public FileController(FileRepository userRepository) {
+		this.fileRepository = userRepository;
+	}
+
+	@RequestMapping(value = "/hello", method = RequestMethod.GET)
+	public String greetings() {
+		logger.info("Greetings!");
+		return "Hello!";
+	}
+	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public List<FileModel> getAllUsers() {
+		logger.info("Getting all folders.");
+		return fileRepository.findAll();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public FileModel getFolder(@PathVariable long id) {
+		logger.info("Getting folders with ID: {}.", id);
+		Optional<FileModel> fileModel = fileRepository.findById(id);
+		return fileModel.get();
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public FileModel addFolder(@RequestBody FileModel fileModel) {
+		logger.info("Saving folders.");
+		return fileRepository.save(fileModel);
+	}
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	public void deleteFolder(@PathVariable Long id) {
+		FileModel model = fileRepository.findById(id).get();
+		logger.info("Deleting folders.");
+		fileRepository.delete(model);
+	}
+}

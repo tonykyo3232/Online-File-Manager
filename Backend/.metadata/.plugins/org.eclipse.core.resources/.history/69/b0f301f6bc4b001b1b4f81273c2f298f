@@ -1,0 +1,11 @@
+package Folders;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+import ofm.FolderModel;
+
+@Repository
+public interface FolderRepository extends MongoRepository < FolderModel, Long > {
+    
+}

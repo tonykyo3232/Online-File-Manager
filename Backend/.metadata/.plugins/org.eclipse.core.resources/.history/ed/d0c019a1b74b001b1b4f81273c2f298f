@@ -1,0 +1,50 @@
+package ofm;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(value = "/")
+public class FileController {
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+	private final FileRepository fileRepository;
+
+	@RequestMapping(value = "/hello", method = RequestMethod.GET)
+	public String greetings() {
+		return "Hello!";
+	}
+	
+	public FileController(FileRepository userRepository) {
+		this.fileRepository = userRepository;
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public List<FileModel> getAllUsers() {
+		logger.info("Getting all Employees.");
+		return fileRepository.findAll();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public FileModel getEmployee(@PathVariable long id) {
+		logger.info("Getting Employee with ID: {}.", id);
+		Optional<FileModel> fileModel = fileRepository.findById(id);
+		return fileModel.get();
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public FileModel add(@RequestBody FileModel employeeModel) {
+		logger.info("Saving Employee.");
+		return fileRepository.save(employeeModel);
+	}
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable Long id) {
+		EmployeeModel model = employeeRepository.findById(id).get();
+		logger.info("Deleting Employee.");
+		employeeRepository.delete(model);
+	}
+}
