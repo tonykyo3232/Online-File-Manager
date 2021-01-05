@@ -1,14 +1,18 @@
 package ofm;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
+@EntityScan
 @Document(collection = "Folders")
 public class FolderModel {
+	
     @Id
     private long id;
     private String name;
+    private long parentId;
     private Date creationDate = new Date();
 
     public long getId() {
@@ -27,6 +31,14 @@ public class FolderModel {
         this.name = name;
     }
 
+    public long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(long par_folder_id) {
+        this.parentId = par_folder_id;
+    }
+        
     public Date getCreationDate() {
         return creationDate;
     }
