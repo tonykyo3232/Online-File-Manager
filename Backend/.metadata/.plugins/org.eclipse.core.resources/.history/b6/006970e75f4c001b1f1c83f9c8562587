@@ -1,0 +1,10 @@
+package ofm;
+
+public interface FileDao {
+	FileModel getTopLevFiles();
+	FolderModel getTopLevFolders();
+	FileModel getFiles();
+	FolderModel getFolders();
+	FolderModel getSubFolders(long parent_folder_id);
+	FileModel getSubFiles(long folder_id);
+}

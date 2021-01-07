@@ -1,0 +1,68 @@
+package ofm;
+
+public class FileDto {
+	
+	// File
+	private long file_id;
+	private String file_name;
+	private long belong_folderId;
+	
+	// Folder
+	private long folder_id;
+	private String folder_name;
+	private long parentFolderId;
+	
+	/********************************
+	* Exclusive Methods for File
+	*********************************/
+	public long getFileId() {
+		return file_id;
+	}
+	
+	public void setFileId(long file_id) {
+		this.file_id = file_id;
+	}
+	
+	public String getFileName() {
+		return file_name;
+	}
+	
+	public void setFileName(String file_name) {
+		this.file_name = file_name;
+	}
+	
+	public long getBelFileId() {
+		return belong_folderId;
+	}
+	
+	public void setBelFileId(long belong_folderId) {
+		this.belong_folderId = belong_folderId;
+	}
+	
+	/********************************
+	* Exclusive Methods for Folder
+	*********************************/
+	public long getFileId() {
+		return file_id;
+	}
+	
+	public void setFileId(long file_id) {
+		this.file_id = file_id;
+	}
+	
+	public String getFileName() {
+		return file_name;
+	}
+	
+	public void setFileName(String file_name) {
+		this.file_name = file_name;
+	}
+	
+	public long getBelFileId() {
+		return belong_folderId;
+	}
+	
+	public void setBelFileId(long belong_folderId) {
+		this.belong_folderId = belong_folderId;
+	}
+}

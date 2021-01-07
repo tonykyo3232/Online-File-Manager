@@ -1,0 +1,44 @@
+package ofm;
+
+import java.util.List;
+import java.util.Optional;
+
+public class FileDaoimpl {
+	
+	private  FolderRepository folderRepository;
+
+	public FileDaoimpl(FolderRepository userRepository) {
+		this.folderRepository = userRepository;
+	}
+	
+	private  FileRepository fileRepository;
+
+	public FileDaoimpl(FileRepository userRepository) {
+		this.fileRepository = userRepository;
+	}
+	
+	public FolderModel getTopLevFolders(){
+		long id = 0;
+		Optional<FolderModel> folderModel = Optional.of(folderRepository.findByParentFolderId(id));
+		return folderModel.get();
+	}
+	
+	public FileModel getTopLevFiles(){
+		long id = 0;
+		Optional<FileModel> fileModel = Optional.of(fileRepository.findByBelFolderId(id));
+		return fileModel.get();
+	}
+	
+	public FolderModel getFolders() {
+		FolderModel folderModel = (FolderModel) folderRepository.findAll();
+		return folderModel;
+	}
+	
+	public FileModel getFiles() {
+		FileModel fileModel = (FileModel) fileRepository.findAll();
+		return fileModel;
+	}
+	
+//	FolderModel getSubFolders(long parent_folder_id);
+//	FileModel getSubFiles(long folder_id);
+}

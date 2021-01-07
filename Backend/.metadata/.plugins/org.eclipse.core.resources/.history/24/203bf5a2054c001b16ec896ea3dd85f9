@@ -1,0 +1,17 @@
+package ofm;
+
+public interface FileDao {
+	
+	List<UserFile> getTopLevFiles();
+	List<Folder> getTopLevFolders();
+	List<UserFile> getFiles();
+	List<Folder> getFolders();
+	List<Folder> getSubFolders(Integer parent_folder_id);
+	List<UserFile> getSubFiles(Integer folder_id);
+	Folder getFolder(Integer id);
+	Folder saveFolder(Folder folder);
+	UserFile getFile(Integer id);
+	UserFile saveFile(UserFile file);
+	void deleteFile(UserFile file);
+	void deleteFolder(Folder folder);
+}

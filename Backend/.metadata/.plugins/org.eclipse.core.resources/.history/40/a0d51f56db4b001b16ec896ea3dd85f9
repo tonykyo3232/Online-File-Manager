@@ -1,0 +1,95 @@
+package ofm;
+
+public class FileDto {
+	
+	// File
+	private long file_id;
+	private String file_name;
+	private long belong_folderId;
+	
+	// Folder
+	private long folder_id;
+	private String folder_name;
+	private long parentFolderId;
+	
+	// to determine whether it's folder or file
+	boolean isFolder;
+	
+	public FileDto(FolderModel folder) {
+		
+		// for folder part
+		folder_id = folder.getId();
+		folder_name = folder.getName();
+		
+		// if contains sub folders
+		if(folder.getParentId() != 0) {
+			parentFolderId = folder.getParentId();
+		}
+	}
+	
+	public FileDto(FileModel file) {
+		
+		// id, name, version, folder that belongs to
+		setFileId(file.getId());
+		setFileName(file.getName());
+		
+		// if file belongs to certain folder
+		if(file.getBelongFolder() != null)
+			setBelongFolderId(file.getBelongFolder().getId());
+		
+	}
+	
+	/********************************
+	* Exclusive Methods for File
+	*********************************/
+	public long getFileId() {
+		return file_id;
+	}
+	
+	public void setFileId(long file_id) {
+		this.file_id = file_id;
+	}
+	
+	public String getFileName() {
+		return file_name;
+	}
+	
+	public void setFileName(String file_name) {
+		this.file_name = file_name;
+	}
+	
+	public long getBelFileId() {
+		return belong_folderId;
+	}
+	
+	public void setBelFileId(long belong_folderId) {
+		this.belong_folderId = belong_folderId;
+	}
+	
+	/********************************
+	* Exclusive Methods for Folder
+	*********************************/
+	public long getFolderId() {
+		return folder_id;
+	}
+	
+	public void setFolderId(long folder_id) {
+		this.folder_id = folder_id;
+	}
+	
+	public String getFolderName() {
+		return folder_name;
+	}
+	
+	public void setFolderName(String folder_name) {
+		this.folder_name = folder_name;
+	}
+	
+	public long getParFolderId() {
+		return parentFolderId;
+	}
+	
+	public void setParFolderId(long parentFolderId) {
+		this.parentFolderId = parentFolderId;
+	}
+}

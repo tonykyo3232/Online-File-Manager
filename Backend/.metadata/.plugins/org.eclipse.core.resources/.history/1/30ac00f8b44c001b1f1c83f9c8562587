@@ -1,0 +1,83 @@
+package ofm;
+
+import java.util.List;
+import java.util.Optional;
+
+public class FileDaoimpl implements FileDao{
+	
+	private  FolderRepository folderRepository;
+
+	public FileDaoimpl(FolderRepository userRepository) {
+		this.folderRepository = userRepository;
+	}
+	
+	private  FileRepository fileRepository;
+
+	public FileDaoimpl(FileRepository userRepository) {
+		this.fileRepository = userRepository;
+	}
+	
+	
+//	public FolderModel getTopLevFolders(){
+//		long id = 0;
+//		Optional<FolderModel> folderModel = Optional.of(folderRepository.findByParentFolderId(id));
+//		return folderModel.get();
+//	}
+	
+//	public FileModel getTopLevFiles(){
+//		long id = 0;
+//		Optional<FileModel> fileModel = Optional.of(fileRepository.findByBelFolderId(id));
+//		return fileModel.get();
+//	}
+	
+	public List<FolderModel> getTopLevFolders(){
+		long id = 0;
+		return (List<FolderModel>) folderRepository.findByParentFolderId(id);
+	}
+	
+	public List<FileModel> getTopLevFiles(){
+		long id = 0;
+		return (List<FileModel>) fileRepository.findByBelFolderId(id);
+	}
+	
+	public List<FolderModel> getFolders() {
+		return folderRepository.findAll();
+	}
+	
+	public List<FileModel> getFiles() {
+		return fileRepository.findAll();
+	}
+	
+	public FileModel getFile(long id) {
+		Optional<FileModel> fileModel = fileRepository.findById(id);
+		return fileModel.get();
+	}
+	
+	public FolderModel getFolder(long id) {
+		Optional<FolderModel> folderModel = folderRepository.findById(id);
+		return folderModel.get();
+	}
+	
+	public FolderModel saveFolder(FolderModel folder) {
+		folderRepository.save(folder);
+	}
+	
+	public FileModel saveFile(FileModel file) {
+		return fileRepository.save(file);
+	}
+
+
+	public FolderModel getSubFolders(long parent_folder_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public FileModel getSubFiles(long folder_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+//	FolderModel getSubFolders(long parent_folder_id);
+//	FileModel getSubFiles(long folder_id);
+}

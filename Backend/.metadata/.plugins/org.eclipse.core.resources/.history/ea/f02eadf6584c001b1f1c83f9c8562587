@@ -1,0 +1,12 @@
+package ofm;
+
+import java.util.List;
+
+public interface FileDao {
+	Optional<FileModel> getTopLevFiles();
+	List<FolderModel> getTopLevFolders();
+	List<FileModel> getFiles();
+	List<FolderModel> getFolders();
+	List<FolderModel> getSubFolders(long parent_folder_id);
+	List<FileModel> getSubFiles(long folder_id);
+}

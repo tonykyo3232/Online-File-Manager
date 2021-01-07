@@ -1,0 +1,45 @@
+package ofm;
+
+public class FileDto {
+	
+	// File
+	private long file_id;
+	private String file_name;
+	private Integer belong_folderId;
+	
+	// Folder
+	private long folder_id;
+	private String folder_name;
+	private Integer parentFolderId;
+	
+	/********************************
+	* Exclusive Methods for File
+	*********************************/
+	public long getFileId() {
+		return file_id;
+	}
+	
+	public void setFileId(long file_id) {
+		this.file_id = file_id;
+	}
+	
+	public String getFileName() {
+		return file_name;
+	}
+	
+	public void setFileId(long file_id) {
+		this.file_id = file_id;
+	}
+	
+	public long getFileId() {
+		return file_id;
+	}
+	
+	public void setFileId(long file_id) {
+		this.file_id = file_id;
+	}
+	
+	/********************************
+	* Exclusive Methods for Folder
+	*********************************/
+}

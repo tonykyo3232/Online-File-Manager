@@ -36,6 +36,7 @@ public class FolderController {
 	}
 
 	// Top level files and folders
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public List getTopLevel() {
@@ -70,11 +71,70 @@ public class FolderController {
 		return folderRepository.save(folder);
 	}
 	
+	// delete the folder (including its sub-folder and files)
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteFolder(@PathVariable Long id) {
-		FolderModel model = folderRepository.findById(id).get();
+		FolderModel folder = folderRepository.findById(id).get();
 		logger.info("Deleting folders.");
-		folderRepository.delete(model);
-	} 
+			
+		// get sub folders
+		List<FolderModel> subFolders = folderRepository.findByParentId(folder.getId());
+				
+		// check if this folder contains any sub folders
+		if(subFolders.size() != 0) {
+			logger.info("deleteFolder - processing folder " + folder.getName());
+			for (FolderModel f: subFolders) {
+				_deleteFolder(f);
+			}
+		}
+		
+		// after cleaning up its sub folder and files, start deleting the current level files
+		List<FileModel> files = fileRepository.findByBelFolderId(folder.getId());
+		
+		// if this folder't contain any file, it will only delete folder itself
+		// otherwise delete file(s) through a loop
+		if(files.size() != 0) {
+			for(FileModel f: files) {
+				logger.info("deleteFolder - processing file " + f.getName());
+				fileRepository.delete(f);
+			}
+		}
+		
+		// delete folder itself at the end of the method
+		folderRepository.delete(folder);
+	}
+	
+	// Recursion function
+	// helper function to delete all the sub folders and files
+	// always delete files first then folder after
+	public void _deleteFolder(FolderModel folder) {
+	
+		// check if this folder contains any sub folders
+		List<FolderModel> folders = folderRepository.findByParentId(folder.getId());
+		
+		if(folders.size() != 0) {
+			// loop through each folder and delete its sub folders and files
+			for (FolderModel f: folders) {
+				logger.info("_deleteFolder - processing folder" + f.getName());
+				_deleteFolder(f);
+			}
+		}
+		
+		// if this folder doesn't contain any sub folder(s), start deleting file
+		List<FileModel> files = fileRepository.findByBelFolderId(folder.getId());
+			
+		// if this folder't contain any file, it will only delete folder itself
+		// otherwise delete file(s) through a loop
+		if(files.size() != 0) {
+			for(FileModel f: files) {
+				logger.info("_deleteFolder - processing file " + f.getName());
+				fileRepository.delete(f);
+			}
+		}
+			
+		// delete the folder at current level
+		folderRepository.delete(folder);
+	}
+	
 }

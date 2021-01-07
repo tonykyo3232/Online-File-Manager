@@ -1,0 +1,11 @@
+package ofm;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FolderRepository extends MongoRepository < FolderModel, Long > {	
+    @Query(value = "{parentId : ?0}", fields = "{ '_id' : 1, 'name' : 1, 'parentId' : 1, creationDate: 1}")
+    FolderModel findByparentId(long id);
+}
