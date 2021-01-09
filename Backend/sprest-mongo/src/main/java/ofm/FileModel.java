@@ -14,6 +14,8 @@ public class FileModel {
     private long belFolderId;
     private Date creationDate = new Date();
 
+    private int fileVersion;
+    
     public long getId() {
         return id;
     }
@@ -45,4 +47,18 @@ public class FileModel {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
+	public int getFileVersion() {
+		return fileVersion;
+	}
+
+	public void setFileVersion(int fileVersion) {
+		this.fileVersion = fileVersion;
+	}
+	
+	@Override
+    public String toString() { 
+        return String.format("\nid: " + this.id + "\nname: " + this.name + "\nbelFolderId: " + this.belFolderId 
+        		+ "\ncreationDate: " + this.creationDate + "\nFile Version: " + this.fileVersion); 
+    } 
 }

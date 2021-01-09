@@ -7,5 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FolderRepository extends MongoRepository < FolderModel, Long > {	
-    List<FolderModel> findByParentId(long parentId);
+    // return a list of folders that has same parentId
+	List<FolderModel> findByParentId(long parentId);
+	
+	// return a list of folders that has same name
+    List<FolderModel> findByName(String name);
 }

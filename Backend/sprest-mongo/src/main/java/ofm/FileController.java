@@ -4,7 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,16 +69,83 @@ public class FileController {
 	
 	@PostMapping("/create")
 	@ResponseStatus(HttpStatus.CREATED)
-	public FileModel UploadFile(@RequestBody FileModel file) {
+	public FileModel createFile(@RequestBody FileModel file) {
 		logger.info("Upload files.");
 		return fileRepository.save(file);
 	}
 	
+	// delete a file
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteFile(@PathVariable Long id) {
 		FileModel model = fileRepository.findById(id).get();
-		logger.info("Deleting files.");
+		logger.info("Deleting file.");		
 		fileRepository.delete(model);
+	}
+	   
+   // upload the file (not adding any folder)
+   // assuming that the file with the same name is the same file
+   @PostMapping("/upload")
+   @ResponseStatus(HttpStatus.CREATED)
+   public FileModel uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") String folderId, @RequestParam("fileId") String fileId) throws IOException {
+	   logger.info("Upload files.");
+
+	   System.out.println("folderId is: " + Integer.parseInt(folderId));
+	   FolderModel folder = null;
+	   if(Integer.parseInt(folderId) != 0) {
+		   folder = folderRepository.findById((long) Integer.parseInt(folderId)).get();
+	   }
+	   
+	   // to check the file version, we need to check
+	   // if there is a file with same name and in same folder
+	   List<FileModel> files = fileRepository.findAll(); 
+	   int curr_version = 1;
+	   
+	   // find the current version of the file
+	   // if the file already exists in database, keep looking for the latest version
+	   for(FileModel f: files) {
+		   if(f.getName().equals(file.getOriginalFilename()) && 
+				   curr_version <= f.getFileVersion()) {
+			   curr_version++;
+		   }
+	   }
+	   
+	   // upload the file to local disk
+	   File uploadedFile;
+	   
+	   if(Integer.parseInt(folderId) == 0) {
+		   if(curr_version == 1) {
+			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + file.getOriginalFilename());
+		   }
+		   else {
+			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + "(" + curr_version + ")" + file.getOriginalFilename());
+		   }
+	   }
+	   else {
+		   if(curr_version == 1) {
+			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + "Folder(" + folder.getName() + ")-" + file.getOriginalFilename());
+		   }
+		   else {
+			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + "Folder(" + folder.getName() + ")-" +"(" + curr_version + ")" + file.getOriginalFilename());
+		   }
+	   }
+	   
+	   uploadedFile.createNewFile();
+		
+	   try (FileOutputStream fout = new FileOutputStream(uploadedFile)) {
+			fout.write(file.getBytes());
+	   }catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	   // Upload the file info to MongoDB
+	   FileModel newFile = new FileModel();
+	   newFile.setName(file.getOriginalFilename());
+	   newFile.setFileVersion(curr_version);
+	   newFile.setBelFolderId(Integer.parseInt(folderId));
+	   newFile.setId(Integer.parseInt(fileId));
+	   newFile.setCreationDate(new Date());
+	   logger.info(newFile.toString());
+	   return fileRepository.save(newFile);
 	}
 }

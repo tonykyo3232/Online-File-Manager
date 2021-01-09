@@ -1,0 +1,13 @@
+package ofm;
+
+import java.util.List;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FolderRepository extends MongoRepository < FolderModel, Long > {	
+    // return a list of folder that has same parentId
+	List<FolderModel> findByParentId(long parentId);
+    List<FolderModel> findByName(String name);
+}
