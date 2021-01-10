@@ -10,16 +10,16 @@ import java.util.Date;
 public class FolderModel {
 	
     @Id
-    private long id;
+    private Integer id;
     private String name;
-    private long parentId;
+    private Integer parentId;
     private Date creationDate = new Date();
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -31,11 +31,11 @@ public class FolderModel {
         this.name = name;
     }
 
-    public long getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(long par_folder_id) {
+    public void setParentId(Integer par_folder_id) {
         this.parentId = par_folder_id;
     }
         
@@ -46,4 +46,10 @@ public class FolderModel {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+    
+    @Override
+    public String toString() { 
+        return String.format("\nid: " + this.id + "\nname: " + this.name + "\nparentId: " + this.parentId 
+        		+ "\ncreationDate: " + this.creationDate); 
+    } 
 }

@@ -9,9 +9,9 @@ import java.util.Date;
 @Document(collection = "Files")
 public class FileModel {
     @Id
-    private long id;
+    private Integer id;
     private String name;
-    private long belFolderId;
+    private Integer belFolderId;
     private Date creationDate = new Date();
 
     private int fileVersion;
@@ -20,15 +20,15 @@ public class FileModel {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public long getBelFolderId() {
+    public Integer getBelFolderId() {
         return belFolderId;
     }
 
-    public void setBelFolderId(long bel_folder_id) {
+    public void setBelFolderId(Integer bel_folder_id) {
         this.belFolderId = bel_folder_id;
     }
     

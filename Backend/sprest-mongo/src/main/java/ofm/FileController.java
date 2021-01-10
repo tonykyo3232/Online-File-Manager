@@ -33,15 +33,8 @@ public class FileController {
 		this.fileRepository = entry_fileRepository;
 		this.folderRepository = entry_folderRepository;
 	}
-	
-	// dummy method for testing the connection
-	@RequestMapping(value = "/hello", method = RequestMethod.GET)
-	public String greetings() {
-		logger.info("Greetings!");
-		return "Hello! from FileController!";
-	}
-	
-	// Top level files
+		
+	// Show All Files
 	@GetMapping("/all")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public List<FileModel> getAllFiles() {
@@ -49,7 +42,7 @@ public class FileController {
 		return fileRepository.findAll();
 	}
 	
-	// Top level files
+	// List Top-level Files
 	@GetMapping
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public List<FileModel> getTopLvFiles() {
@@ -57,17 +50,19 @@ public class FileController {
 		return fileRepository.findByBelFolderId(0);
 	}
 
+	// get a single file
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public FileModel getFile(@PathVariable long id) {
+	public FileModel getFile(@PathVariable Integer id) {
 		logger.info("Getting file with ID: {}.", id);
 		Optional<FileModel> fileModel = fileRepository.findById(id);
 		return fileModel.get();
 	}
 	
+	// get the belong folder of the file
 	@GetMapping("/{id}/parent")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public FolderModel getBelongFolder(@PathVariable long id) {
+	public FolderModel getBelongFolder(@PathVariable Integer id) {
 		logger.info("Getting this file's belong folders with ID: {}.", id);
 		Optional<FileModel> file = fileRepository.findById(id);
 		System.out.println("Parentid: " + file.get().getBelFolderId());
@@ -78,7 +73,7 @@ public class FileController {
 	// delete a file
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteFile(@PathVariable Long id) {
+	public void deleteFile(@PathVariable Integer id) {
 		FileModel model = fileRepository.findById(id).get();
 		logger.info("Deleting file.");		
 		fileRepository.delete(model);
@@ -94,7 +89,7 @@ public class FileController {
 	   System.out.println("folderId is: " + folderId);
 	   FolderModel folder = null;
 	   if(folderId != 0) {
-		   folder = folderRepository.findById((long)folderId).get();
+		   folder = folderRepository.findById(folderId).get();
 	   }
 	   
 	   // to check the file version, we need to check
@@ -157,7 +152,7 @@ public class FileController {
  			@PathVariable int file_id) 
  			throws ServletException, IOException {
  		
- 		FileModel file = fileRepository.findById((long) file_id).get(); 
+ 		FileModel file = fileRepository.findById(file_id).get(); 
  				
         String fileType = findValue("([./].*)",file.getName());
         String fileName = findValue("([a-zA-Z_0-9]*)", file.getName());

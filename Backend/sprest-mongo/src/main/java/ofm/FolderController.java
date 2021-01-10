@@ -20,14 +20,7 @@ public class FolderController {
 		this.fileRepository = entry_fileRepository;
 		this.folderRepository = entry_folderRepository;
 	}
-	
-	// dummy method for testing the connection
-	@GetMapping("/hello")
-	public String greetings() {
-		logger.info("Greetings!");
-		return "Hello from FolderController!";
-	}
-	
+		
 	@GetMapping("/all")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public List<FolderModel> getAllFolders() {
@@ -46,9 +39,20 @@ public class FolderController {
 		return merged;
 	}
 	
+	// get current level folders and files
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public FolderModel getFolder(@PathVariable long id) {
+	public List getCurrLevel(@PathVariable Integer id) {
+		logger.info("Getting folders with ID: {}.", id);
+		List merged = new ArrayList(folderRepository.findByParentId(id));
+		merged.addAll(fileRepository.findByBelFolderId(id));
+		return merged;
+	}
+	
+	@GetMapping("/{id}/single_folder")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public FolderModel getFolder(@PathVariable Integer id) {
 		logger.info("Getting folders with ID: {}.", id);
 		Optional<FolderModel> folderModel = folderRepository.findById(id);
 		return folderModel.get();
@@ -56,7 +60,7 @@ public class FolderController {
 	
 	@GetMapping("/{id}/parent")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public FolderModel getParentFolder(@PathVariable long id) {
+	public FolderModel getParentFolder(@PathVariable Integer id) {
 		logger.info("Getting folders with ID: {}.", id);
 		Optional<FolderModel> folderModel = folderRepository.findById(id);
 		System.out.println("Parentid: " + folderModel.get().getParentId());
@@ -74,7 +78,7 @@ public class FolderController {
 	// delete the folder (including its sub-folder and files)
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteFolder(@PathVariable Long id) {
+	public void deleteFolder(@PathVariable Integer id) {
 		FolderModel folder = folderRepository.findById(id).get();
 		logger.info("Deleting folders.");
 			
