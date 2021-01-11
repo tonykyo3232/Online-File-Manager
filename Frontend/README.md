@@ -1,3 +1,10 @@
+** Setting up the environment of the React App **
+- First, create the React App Project
+```
+npx create-react-app <project_name>
+```
+- Next, replace the src folder
+
 **To start the React App**
 ```
 npm start

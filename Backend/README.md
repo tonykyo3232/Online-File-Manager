@@ -4,12 +4,12 @@
 
 **To test the router methods**
 
-Use Postman with these endpoints
+- Use Postman with these endpoints
 
 
 **GET Request**
 
-For Folder
+- For Folder
 ```
 http://localhost:8080/folder
 
@@ -22,7 +22,7 @@ http://localhost:8080/folder/{id}/single_folder
 http://localhost:8080/folder/{id}/parent
 ```
 
-For File
+- For File
 ```
 http://localhost:8080/file
 
@@ -36,12 +36,12 @@ http://localhost:8080/file/{id}/parent
 
 
 **POST Request**
-For Folder
+- For Folder
 ```
 http://localhost:8080/folder/create
 ```
 
-For File
+- For File
 ```
 http://localhost:8080/file/upload
 
@@ -49,12 +49,12 @@ http://localhost:8080/file/{id}/download
 ```
 
 **Delete Request**
-For Folder
+- For Folder
 ```
 http://localhost:8080/folder/{id}
 ```
 
-For File
+- For File
 ```
 http://localhost:8080/file/{id}
 ```
