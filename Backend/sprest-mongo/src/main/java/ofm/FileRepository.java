@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FileRepository extends MongoRepository < FileModel, Integer > {
 	// return a list of files that has same belFolderId
-	List<FileModel> findByBelFolderId(Integer belFolderId);
+	List<FileModel> findByParentId(Integer parentId);
     
 	// return a list of files that has same file name
 	List<FileModel> findByName(String name);

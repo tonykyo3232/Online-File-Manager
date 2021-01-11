@@ -16,4 +16,5 @@
     <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
     <fullyQualifiedTypeName name="java.io.OutputStream"/>
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
+    <fullyQualifiedTypeName name="java.util.NoSuchElementException"/>
 </qualifiedTypeNameHistroy>

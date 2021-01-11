@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/folder")
 public class FolderController {
@@ -35,7 +36,7 @@ public class FolderController {
 	public List getTopLevel() {
 		logger.info("Getting all top-level folders.");
 		List merged = new ArrayList(folderRepository.findByParentId(0));
-        merged.addAll(fileRepository.findByBelFolderId(0));
+        merged.addAll(fileRepository.findByParentId(0));
 		return merged;
 	}
 	
@@ -46,7 +47,7 @@ public class FolderController {
 	public List getCurrLevel(@PathVariable Integer id) {
 		logger.info("Getting folders with ID: {}.", id);
 		List merged = new ArrayList(folderRepository.findByParentId(id));
-		merged.addAll(fileRepository.findByBelFolderId(id));
+		merged.addAll(fileRepository.findByParentId(id));
 		return merged;
 	}
 	
@@ -64,7 +65,13 @@ public class FolderController {
 		logger.info("Getting folders with ID: {}.", id);
 		Optional<FolderModel> folderModel = folderRepository.findById(id);
 		System.out.println("Parentid: " + folderModel.get().getParentId());
-		Optional<FolderModel> parentFolder = folderRepository.findById(folderModel.get().getParentId());
+		Optional<FolderModel> parentFolder = Optional.ofNullable(new FolderModel());
+		if( folderModel.get().getParentId() != 0) {
+			parentFolder = folderRepository.findById(folderModel.get().getParentId());
+		}
+		else {
+			parentFolder.get().setId(-1);
+		}
 		return parentFolder.get();
 	}
 		
@@ -72,6 +79,7 @@ public class FolderController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public FolderModel CreateFolder(@RequestBody FolderModel folder) {
 		logger.info("Saving folders.");
+		folder.setIsFolder(1);
 		return folderRepository.save(folder);
 	}
 	
@@ -94,7 +102,7 @@ public class FolderController {
 		}
 		
 		// after cleaning up its sub folder and files, start deleting the current level files
-		List<FileModel> files = fileRepository.findByBelFolderId(folder.getId());
+		List<FileModel> files = fileRepository.findByParentId(folder.getId());
 		
 		// if this folder't contain any file, it will only delete folder itself
 		// otherwise delete file(s) through a loop
@@ -126,7 +134,7 @@ public class FolderController {
 		}
 		
 		// if this folder doesn't contain any sub folder(s), start deleting file
-		List<FileModel> files = fileRepository.findByBelFolderId(folder.getId());
+		List<FileModel> files = fileRepository.findByParentId(folder.getId());
 			
 		// if this folder't contain any file, it will only delete folder itself
 		// otherwise delete file(s) through a loop

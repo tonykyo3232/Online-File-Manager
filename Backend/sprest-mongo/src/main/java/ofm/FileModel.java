@@ -11,10 +11,15 @@ public class FileModel {
     @Id
     private Integer id;
     private String name;
-    private Integer belFolderId;
+    private Integer parentId;
     private Date creationDate = new Date();
-
-    private int fileVersion;
+    private Integer isFolder;
+    private Integer fileVersion;
+    
+    public FileModel() {
+    	// fixed value
+    	this.isFolder = 0;;
+    }
     
     public long getId() {
         return id;
@@ -24,12 +29,12 @@ public class FileModel {
         this.id = id;
     }
 
-    public Integer getBelFolderId() {
-        return belFolderId;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setBelFolderId(Integer bel_folder_id) {
-        this.belFolderId = bel_folder_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
     
     public String getName() {
@@ -48,7 +53,7 @@ public class FileModel {
         this.creationDate = creationDate;
     }
 
-	public int getFileVersion() {
+	public Integer getFileVersion() {
 		return fileVersion;
 	}
 
@@ -56,9 +61,17 @@ public class FileModel {
 		this.fileVersion = fileVersion;
 	}
 	
+	public Integer getIsFolder() {
+		return isFolder;
+	}
+
+	public void setIsFolder(Integer isFolder) {
+		this.isFolder = isFolder;
+	} 
+	
 	@Override
     public String toString() { 
-        return String.format("\nid: " + this.id + "\nname: " + this.name + "\nbelFolderId: " + this.belFolderId 
+        return String.format("\nid: " + this.id + "\nname: " + this.name + "\nparentId: " + this.parentId 
         		+ "\ncreationDate: " + this.creationDate + "\nFile Version: " + this.fileVersion); 
-    } 
+    }
 }
