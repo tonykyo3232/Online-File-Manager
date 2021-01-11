@@ -3,16 +3,16 @@
 - This project will help users to manager their folders and files. (Similar to Google Drive)
 - It has 2 parts: Backend and Frontend
 
-** Backend Environment:**
+**Backend Environment:**
 - IDE: Eclipse
 - Maven Spring Boot for managing REST API
 - MondoDB for managing the Database
 
-** Frontend Environment: **
+**Frontend Environment:**
 - Node.js
 - React for single-page development
 
-** Checking list: **
+**Checking list:**
 
 * Backend
 - Connect Maven Spring Boot to MondoDB (Localhost)
