@@ -53,15 +53,17 @@ public class FolderController {
 	
 	@GetMapping("/{id}/single_folder")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public FolderModel getFolder(@PathVariable Integer id) {
+	public List<FolderModel> getFolder(@PathVariable Integer id) {
 		logger.info("Getting folders with ID: {}.", id);
 		Optional<FolderModel> folderModel = folderRepository.findById(id);
-		return folderModel.get();
+		List<FolderModel> folder = new ArrayList<FolderModel>(); 
+		folder.add(folderModel.get());
+		return folder;
 	}
 	
 	@GetMapping("/{id}/parent")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public FolderModel getParentFolder(@PathVariable Integer id) {
+	public List<FolderModel> getParentFolder(@PathVariable Integer id) {
 		logger.info("Getting folders with ID: {}.", id);
 		Optional<FolderModel> folderModel = folderRepository.findById(id);
 		System.out.println("Parentid: " + folderModel.get().getParentId());
@@ -72,7 +74,9 @@ public class FolderController {
 		else {
 			parentFolder.get().setId(-1);
 		}
-		return parentFolder.get();
+		List<FolderModel> folder = new ArrayList<FolderModel>(); 
+		folder.add(parentFolder.get());
+		return folder;
 	}
 		
 	@PostMapping("/create")

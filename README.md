@@ -14,9 +14,17 @@
 
 **Checking list:**
 
-* Backend
-- Connect Maven Spring Boot to MondoDB (Localhost)
-- Able to list/upload/delete files and folders
+Backend
+- [x] Connect Maven Spring Boot to MondoDB (Localhost)
+- [x] Able to list files and folders in a list of JSON format
+- [x] Able to upload/delete files and folders
 
-* Frontend
-- Listing top-level and spec-level folders and files
+Frontend
+- [x] Listing top-level and spec-level folders and files
+- [x] Able to go back previous folder
+- [] Able to create folders
+- [] Able to delete folders
+- [] Able to see file's content
+- [] Able to upload files
+- [] Able to download files
+
