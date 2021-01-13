@@ -1,4 +1,4 @@
-**Setting up the environment of the React App **
+**Setting up the environment of the React App**
 - First, create the React App Project
 ```
 npx create-react-app <project_name>
