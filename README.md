@@ -22,9 +22,9 @@ Backend
 Frontend
 - [x] Listing top-level and spec-level folders and files
 - [x] Able to go back previous folder
-- [] Able to create folders
-- [] Able to delete folders
-- [] Able to see file's content
-- [] Able to upload files
-- [] Able to download files
+- [ ] Able to create folders
+- [ ] Able to delete folders
+- [ ] Able to see file's content
+- [ ] Able to upload files
+- [ ] Able to download files
 
