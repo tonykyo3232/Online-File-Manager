@@ -86,7 +86,7 @@ public class FileController {
    // assuming that the file with the same name is the same file
    @PostMapping("/upload")
    @ResponseStatus(HttpStatus.CREATED)
-   public FileModel uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") Integer folderId) throws IOException {
+   public FileModel uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") Integer folderId, @RequestParam("fileId") Integer fileId) throws IOException {
 	   logger.info("Upload files.");
 
 	   System.out.println("folderId is: " + folderId);
@@ -138,19 +138,14 @@ public class FileController {
 		}
 		
 	   // find the Id value for the new file
-	   IdModel idModel = idRepository.findById(1).get();
-	   Integer id = idModel.getValue();
-	   
-	   // update the id for the next post request
-	   idModel.setValue(id+1);
-	   idRepository.save(idModel);
+	   IdModel id = idRepository.findById(1).get();
 	   
 	   // Upload the file info to MongoDB
 	   FileModel newFile = new FileModel();
 	   newFile.setName(file.getOriginalFilename());
 	   newFile.setFileVersion(curr_version);
 	   newFile.setParentId(folderId);
-	   newFile.setId(id);
+//	   newFile.setId(fileId);
 	   newFile.setCreationDate(new Date());
 	   logger.info(newFile.toString());
 	   return fileRepository.save(newFile);

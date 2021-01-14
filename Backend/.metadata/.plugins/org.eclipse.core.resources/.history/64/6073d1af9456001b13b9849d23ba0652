@@ -85,7 +85,7 @@ public class FolderController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public FolderModel CreateFolder_new(@RequestBody FolderModel folder) {
 		logger.info("Saving folder...");
-		List<FolderModel> L = new ArrayList<FolderModel>(folderRepository.findByParentId(0));
+		List L = new ArrayList(folderRepository.findByParentId(0));
 		
 		// get Id class
 		IdModel id = idRepository.findById(1).get();

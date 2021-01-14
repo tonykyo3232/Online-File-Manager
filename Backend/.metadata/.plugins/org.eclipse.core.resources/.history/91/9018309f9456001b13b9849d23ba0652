@@ -81,11 +81,11 @@ public class FolderController {
 		return folder;
 	}
 		
-	@PostMapping("/create")
+	@PostMapping("/create/new")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FolderModel CreateFolder_new(@RequestBody FolderModel folder) {
 		logger.info("Saving folder...");
-		List<FolderModel> L = new ArrayList<FolderModel>(folderRepository.findByParentId(0));
+		List L = new ArrayList(folderRepository.findByParentId(0));
 		
 		// get Id class
 		IdModel id = idRepository.findById(1).get();
@@ -104,6 +104,13 @@ public class FolderController {
 		// update folder
 		folderRepository.save(folder);
 		return folder;
+	}
+	
+	@PostMapping("/create")
+	@ResponseStatus(HttpStatus.CREATED)
+	public FolderModel CreateFolder(@RequestBody FolderModel folder) {
+		logger.info("Saving folders.");
+		return folderRepository.save(folder);
 	}
 	
 	// delete the folder (including its sub-folder and files)

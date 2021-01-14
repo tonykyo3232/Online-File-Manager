@@ -1,0 +1,18 @@
+package ofm;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@CrossOrigin
+@RestController
+@RequestMapping("/id")
+public class IdController {
+	private IdRepository idRepository;
+	
+	public FolderController(FileRepository entry_fileRepository, FolderRepository entry_folderRepository, IdRepository entry_idRepository) {
+		this.fileRepository = entry_fileRepository;
+		this.folderRepository = entry_folderRepository;
+		this.idRepository = entry_idRepository;
+	}
+}

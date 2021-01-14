@@ -61,5 +61,5 @@ http://localhost:8080/file/{id}
 **Patch Request**
 - For IdSeq:
 ```
-http://localhost:8080/folder/init
+http://localhost:8080/id/init
 ```
