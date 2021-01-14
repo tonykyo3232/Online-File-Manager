@@ -1,0 +1,8 @@
+package ofm;
+
+@Document(collection = "IdSeq")
+public class IdModel {
+	
+    @Id
+    private Integer id; 
+}

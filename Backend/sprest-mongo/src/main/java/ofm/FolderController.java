@@ -16,12 +16,22 @@ public class FolderController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private FileRepository fileRepository;
 	private FolderRepository folderRepository;
+	private IdRepository idRepository;
 
-	public FolderController(FileRepository entry_fileRepository, FolderRepository entry_folderRepository) {
+	public FolderController(FileRepository entry_fileRepository, FolderRepository entry_folderRepository, IdRepository entry_idRepository) {
 		this.fileRepository = entry_fileRepository;
 		this.folderRepository = entry_folderRepository;
+		this.idRepository = entry_idRepository;
 	}
-		
+	
+	@PatchMapping("/init")
+	@ResponseStatus(HttpStatus.OK)
+	public IdModel init(@RequestBody IdModel id) {
+		logger.info("init Id...");
+		idRepository.save(id);
+		return id;
+	}
+	
 	@GetMapping("/all")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public List<FolderModel> getAllFolders() {
@@ -79,11 +89,35 @@ public class FolderController {
 		return folder;
 	}
 		
+	@PostMapping("/create/new")
+	@ResponseStatus(HttpStatus.CREATED)
+	public FolderModel CreateFolder_new(@RequestBody FolderModel folder) {
+		logger.info("Saving folder...");
+		List L = new ArrayList(folderRepository.findByParentId(0));
+		
+		// get Id class
+		IdModel id = idRepository.findById(1).get();
+		
+		if(L.size() == 0) {
+			folder.setId(1);	
+		}else {
+			folder.setId(id.getValue());	
+		}
+		// update id
+		Integer nextId = id.getValue();
+		nextId++;
+		id.setValue(nextId);
+		idRepository.save(id);
+		
+		// update folder
+		folderRepository.save(folder);
+		return folder;
+	}
+	
 	@PostMapping("/create")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FolderModel CreateFolder(@RequestBody FolderModel folder) {
 		logger.info("Saving folders.");
-		folder.setIsFolder(1);
 		return folderRepository.save(folder);
 	}
 	

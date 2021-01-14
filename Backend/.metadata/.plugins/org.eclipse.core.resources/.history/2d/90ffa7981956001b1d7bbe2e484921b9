@@ -1,0 +1,9 @@
+package ofm;
+
+@EntityScan
+@Document(collection = "IdSeq")
+public class IdModel {
+	
+    @Id
+    private Integer id; 
+}

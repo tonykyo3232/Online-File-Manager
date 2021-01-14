@@ -1,0 +1,19 @@
+package ofm;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "IdSeq")
+public class IdModel {
+	
+    @Id
+    private Integer id;
+    
+    public Integer getId() {
+    	return this.id;
+    }
+    
+    public void setId(Integer id) {
+    	this.id = id;
+    }
+}
