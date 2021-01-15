@@ -37,7 +37,7 @@ http://localhost:8080/file/{id}/parent
 **POST Request**
 - For Folder:
 ```
-http://localhost:8080/folder/create
+http://localhost:8080/folder
 ```
 
 - For File:

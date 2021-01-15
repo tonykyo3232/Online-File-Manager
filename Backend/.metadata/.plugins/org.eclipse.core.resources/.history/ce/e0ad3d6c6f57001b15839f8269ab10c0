@@ -31,11 +31,11 @@ public class FolderModel {
         this.id = id;
     }
 
-    public String getName() {
+    public String getfileName() {
         return fileName;
     }
 
-    public void setName(String name) {
+    public void setfileName(String name) {
         this.fileName = name;
     }
 

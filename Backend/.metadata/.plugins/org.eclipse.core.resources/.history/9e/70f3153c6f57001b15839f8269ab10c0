@@ -81,7 +81,7 @@ public class FolderController {
 		return folder;
 	}
 		
-	@PostMapping
+	@PostMapping("/create")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FolderModel CreateFolder(@RequestBody FolderModel folder) {
 		logger.info("Saving folder...");

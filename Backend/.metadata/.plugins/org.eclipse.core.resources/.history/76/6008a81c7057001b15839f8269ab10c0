@@ -81,9 +81,9 @@ public class FolderController {
 		return folder;
 	}
 		
-	@PostMapping
+	@PostMapping("/create")
 	@ResponseStatus(HttpStatus.CREATED)
-	public FolderModel CreateFolder(@RequestBody FolderModel folder) {
+	public FolderModel CreateFolder_new(@RequestBody FolderModel folder) {
 		logger.info("Saving folder...");
 		List<FolderModel> L = new ArrayList<FolderModel>(folderRepository.findByParentId(0));
 		

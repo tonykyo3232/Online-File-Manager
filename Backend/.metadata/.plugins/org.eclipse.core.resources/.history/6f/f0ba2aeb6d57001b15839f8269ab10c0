@@ -11,7 +11,7 @@ public class FolderModel {
 	
     @Id
     private Integer id;
-    private String fileName;
+    private String name;
     private Integer parentId;
     private Date creationDate = new Date();
     private Integer isFolder;
@@ -32,11 +32,11 @@ public class FolderModel {
     }
 
     public String getName() {
-        return fileName;
+        return name;
     }
 
     public void setName(String name) {
-        this.fileName = name;
+        this.name = name;
     }
 
     public Integer getParentId() {
@@ -73,7 +73,7 @@ public class FolderModel {
 	
     @Override
     public String toString() { 
-        return String.format("\nid: " + this.id + "\nname: " + this.fileName + "\nparentId: " + this.parentId 
+        return String.format("\nid: " + this.id + "\nname: " + this.name + "\nparentId: " + this.parentId 
         		+ "\ncreationDate: " + this.creationDate); 
     }
 }
