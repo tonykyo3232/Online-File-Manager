@@ -4,6 +4,7 @@ import TopLvFolder from "./components/TopLevFolder";
 import AddFolder from "./components/AddFolder";
 import AddFolderSpecLv from "./components/AddFolderSpecLv";
 import SpecFolder from "./components/SpecLevFolder";
+import HomePage from "./components/HomePage";
 
 function App() {
   return (
@@ -18,8 +19,11 @@ function App() {
         <Route path="/SpecFolder/:id">
           <SpecFolder />
         </Route>
-        <Route path="/">
+        <Route path="/topLv">
           <TopLvFolder />
+        </Route>
+        <Route path="/">
+          <HomePage />
         </Route>
       </Switch>
     </Router>

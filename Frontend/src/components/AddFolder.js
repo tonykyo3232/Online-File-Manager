@@ -13,7 +13,7 @@ function AddFolder() {
         name,
         parentId: 0
       })
-      .then(() => history.push("/"));
+      .then(() => history.push("/topLv"));
   };
 
   return (

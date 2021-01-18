@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import Button from 'react-bootstrap/Button';
 import axios from "axios";
 
 function SpecFolder() {
@@ -35,18 +37,21 @@ function SpecFolder() {
     
     return (
       <>
-        <h2>Online File Manager</h2>
-        {entry_folder_parent.map(entry =>{
+        <Breadcrumb>
+          <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+          {entry_folder_parent.map(entry =>{
             if(entry.id === -1){
-              return <Link to= "/">Previous folder</Link>;
+              return <Breadcrumb.Item href="/topLv">Previous folder</Breadcrumb.Item>;
             }
             else{
-              return <p> <Link to={`/SpecFolder/${entry.id}`}>Previous folder</Link></p>;
+              return <Breadcrumb.Item href={`/SpecFolder/${entry.id}`}>Previous folder</Breadcrumb.Item>;
             }       
           })}
+        </Breadcrumb>
+        <h2>Online File Manager</h2>
         <p>
           {entry_folder.map((entry) => (
-              <Link to={`/addSpecLv/${entry.id}`}>Create Folder</Link>
+              <Link to={`/addSpecLv/${entry.id}`}><Button variant="outline-primary">Create Folder</Button></Link>
           ))}
         </p>
         <table border="1">
