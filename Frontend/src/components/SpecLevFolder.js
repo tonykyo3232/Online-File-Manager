@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import Breadcrumb from 'react-bootstrap/Breadcrumb'
-import Button from 'react-bootstrap/Button';
 import axios from "axios";
+import Button from 'react-bootstrap/Button';
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import img_folder from "./img/folder.jpg";
+import img_file from "./img/file.png";
 
 function SpecFolder() {
 
@@ -54,57 +60,49 @@ function SpecFolder() {
               <Link to={`/addSpecLv/${entry.id}`}><Button variant="outline-primary">Create Folder</Button></Link>
           ))}
         </p>
-        <table border="1">
-          <thead>
-            {entries.map((entry) => {
-              if(entry.isFolder !== 0 && entry.id != id){
-                return(
-                  <tr key={entry.id}>
-                    <td> <Link to = {`/SpecFolder/${entry.id}`}>\{entry.name} </Link> </td>
-                    <td>
-                      <Link
-                        onClick={() => {
-                          axios
-                            .delete(`http://localhost:8080/folder/${entry.id}`)
-                            .then(() => {
-                              let newEntries = entries.filter(
-                                (e) => e.id !== entry.id
-                              );
-                              setEntries(newEntries);
-                            });
-                        }}
-                        to={getVal()}
-                      >
-                        Delete
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              }
-            })}
-          </thead>
-        </table>
-        <br/>
-        <table border="1">
-          <thead>
-            <tr>
-              <th>File Name</th>
-              <th>Version</th>
-            </tr>
-          </thead>
-          <tbody>
-            {entries.map((entry) => {
-              if(entry.isFolder !== 1){
-                return(
-                  <tr key={entry.id}>
-                    <td>{entry.name}</td>
-                    <td>{entry.fileVersion}</td>
-                  </tr>
-                )
-              }
-            })}
-          </tbody>
-        </table>
+        {entries.map((entry) => {
+        if(entry.isFolder !== 0 && entry.id != id){
+          return(
+            <Card style={{ width: '10rem' }}>
+              <Card.Img variant="top" src={img_folder} />
+              <Card.Body>
+                <Card.Title>{entry.name}</Card.Title>
+                <Link to = {`/SpecFolder/${entry.id}`}><Button variant="primary">go</Button></Link>
+                <Link
+                onClick={() => {
+                  axios
+                    .delete(`http://localhost:8080/folder/${entry.id}`)
+                    .then(() => {
+                      let newEntries = entries.filter(
+                        (e) => e.id !== entry.id
+                      );
+                      setEntries(newEntries);
+                    });
+                }}
+                to="/topLv"
+              >
+                <Button variant="outline-danger">Delete</Button>
+              </Link>
+              </Card.Body>
+            </Card>
+          );
+        }
+      })}
+      <br/>
+      {entries.map((entry) => {
+        if(entry.isFolder !== 1){
+          return(
+            <CardGroup style={{ width: '10rem' }}>
+              <Card >
+                <Card.Img variant="top" src={img_file} />
+                <Card.Body>
+                  <Card.Title>{entry.name}</Card.Title>
+                </Card.Body>
+              </Card>
+            </CardGroup>
+          )
+        }
+      })}
       </>
     );
   }
