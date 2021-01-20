@@ -18,6 +18,7 @@ Backend
 - [x] Connect Maven Spring Boot to MondoDB (Localhost)
 - [x] Able to list files and folders in a list of JSON format
 - [x] Able to upload/delete files and folders
+- [x] Able to upload file in different versions
 - [ ] Able to manage files and folders for different users
 
 Frontend
@@ -26,6 +27,7 @@ Frontend
 - [x] Able to create folders
 - [x] Able to delete folders
 - [x] Able to delete folders and its files
+- [x] Able to delete file only
 - [ ] Able to see file's content
 - [ ] Able to upload files
 - [ ] Able to download files

@@ -97,6 +97,21 @@ function SpecFolder() {
                 <Card.Img variant="top" src={img_file} />
                 <Card.Body>
                   <Card.Title>{entry.name}</Card.Title>
+                  <Link
+                    onClick={() => {
+                      axios
+                        .delete(`http://localhost:8080/file/${entry.id}`)
+                        .then(() => {
+                          let newEntries = entries.filter(
+                            (e) => e.id !== entry.id
+                          );
+                          setEntries(newEntries);
+                        });
+                    }}
+                    to={`/SpecFolder/${entry.id}`}
+                  >
+                    <Button variant="outline-danger">Delete</Button>
+                  </Link>
                 </Card.Body>
               </Card>
             </CardGroup>

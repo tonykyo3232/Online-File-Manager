@@ -57,9 +57,27 @@ public class FolderController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public List<FolderModel> getFolder(@PathVariable Integer id) {
 		logger.info("Getting folders with ID: {}.", id);
-		Optional<FolderModel> folderModel = folderRepository.findById(id);
+		
+		boolean found = false;
+		List<FolderModel> folders = new ArrayList<FolderModel>(folderRepository.findAll());
+		for(FolderModel f: folders) {
+			if(f.getId() == id) {
+				found = true;
+				break;
+			}
+		}
+		
 		List<FolderModel> folder = new ArrayList<FolderModel>(); 
-		folder.add(folderModel.get());
+		if(found == true) {
+			Optional<FolderModel> folderModel = folderRepository.findById(id);
+			folder.add(folderModel.get());
+		}
+		else {
+			FolderModel f = new FolderModel();
+			f.setId(-1);
+			f.setIsFolder(0);
+			folder.add(f);
+		}
 		return folder;
 	}
 	
@@ -67,17 +85,40 @@ public class FolderController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public List<FolderModel> getParentFolder(@PathVariable Integer id) {
 		logger.info("Getting folders with ID: {}.", id);
-		Optional<FolderModel> folderModel = folderRepository.findById(id);
-		System.out.println("Parentid: " + folderModel.get().getParentId());
-		Optional<FolderModel> parentFolder = Optional.ofNullable(new FolderModel());
-		if( folderModel.get().getParentId() != 0) {
-			parentFolder = folderRepository.findById(folderModel.get().getParentId());
+		
+		boolean found = false;
+		List<FolderModel> folders = new ArrayList<FolderModel>(folderRepository.findAll());
+		for(FolderModel f: folders) {
+			if(f.getId() == id) {
+				found = true;
+				break;
+			}
 		}
-		else {
-			parentFolder.get().setId(-1);
-		}
+		
 		List<FolderModel> folder = new ArrayList<FolderModel>(); 
-		folder.add(parentFolder.get());
+		
+		// if the folder exists
+		if(found == true) {
+			Optional<FolderModel> folderModel = folderRepository.findById(id);
+			Optional<FolderModel> parentFolder = Optional.ofNullable(new FolderModel());
+			
+			// if the folder has parent
+			if( folderModel.get().getParentId() != 0) {
+				parentFolder = folderRepository.findById(folderModel.get().getParentId());
+			}
+			// if the folder doesn't have parent
+			else {
+				parentFolder.get().setId(-1);
+			}
+			folder.add(parentFolder.get());
+		}
+		// if the folder doesn't exists
+		else {
+			FolderModel f = new FolderModel();
+			f.setId(-1);
+			f.setIsFolder(0);
+			folder.add(f);
+		}
 		return folder;
 	}
 		
