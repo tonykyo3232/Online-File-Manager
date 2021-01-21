@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Breadcrumb from 'react-bootstrap/Breadcrumb'
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import img_folder from "./img/folder.jpg";
@@ -33,14 +35,32 @@ function SpecFolder() {
       }
       fetchData();
     }, [id]);
-
-    function getVal(){
-       let currFolderId = entry_folder.map((val)=>{  
-        return val.id;
-      });
-      return "/SpecFolder/" + currFolderId;
-    }
     
+    function getVal(){
+      let currFolderId = entry_folder.map((val)=>{  
+       return val.id;
+     });
+     return "/SpecFolder/" + currFolderId;
+   }
+
+    // create folder
+    const [name, setName] = useState("");
+    const onSubmit = function (e) {
+      e.preventDefault();
+      axios
+        .post("http://localhost:8080/folder", {
+          name,
+          parentId: id
+        })
+        handleClose();
+        window.location.reload(); 
+    };
+    
+    // model
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
       <>
         <Breadcrumb>
@@ -56,15 +76,13 @@ function SpecFolder() {
         </Breadcrumb>
         <h2 style = {{margin: '10px'}}>Online File Manager</h2>
         <p style = {{margin: '10px'}}>
-          {entry_folder.map((entry) => (
-              <Link to={`/addSpecLv/${entry.id}`}><Button variant="outline-primary">Create Folder</Button></Link>
-          ))}
+          <Button variant="outline-primary" onClick={handleShow}>Create Folder</Button>
         </p>
         <div className = "row" style = {{margin: '10px'}}>
         {entries.map((entry) => {
         if(entry.isFolder !== 0 && entry.id != id){
           return(
-            <div class="column">
+            <div className="column">
             <Card style={{ width: '13rem' }}>
               <Card.Img variant="top" src={img_folder} />
               <Card.Body>
@@ -81,7 +99,7 @@ function SpecFolder() {
                       setEntries(newEntries);
                     });
                 }}
-                to="/topLv"
+                to={getVal()}
               >
                 <Button variant="outline-danger">Delete</Button>
               </Link>
@@ -126,6 +144,36 @@ function SpecFolder() {
         }
       })}
       </div>
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title >Enter folder name:</Modal.Title>
+        </Modal.Header>
+        <Form style = {{margin: '10px'}}> 
+          <Form.Group controlId="formFolderName">
+            <Form.Label>Folder Name</Form.Label>
+            <Form.Control
+            type="name" 
+            placeholder="folder name"
+            value={name}
+            onChange={(e) => setName(e.target.value)} />
+          </Form.Group>
+        </Form>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={onSubmit}>
+            Create
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       </>
     );
   }
