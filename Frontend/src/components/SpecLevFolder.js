@@ -54,16 +54,18 @@ function SpecFolder() {
             }       
           })}
         </Breadcrumb>
-        <h2>Online File Manager</h2>
-        <p>
+        <h2 style = {{margin: '10px'}}>Online File Manager</h2>
+        <p style = {{margin: '10px'}}>
           {entry_folder.map((entry) => (
               <Link to={`/addSpecLv/${entry.id}`}><Button variant="outline-primary">Create Folder</Button></Link>
           ))}
         </p>
+        <div className = "row" style = {{margin: '10px'}}>
         {entries.map((entry) => {
         if(entry.isFolder !== 0 && entry.id != id){
           return(
-            <Card style={{ width: '10rem' }}>
+            <div class="column">
+            <Card style={{ width: '13rem' }}>
               <Card.Img variant="top" src={img_folder} />
               <Card.Body>
                 <Card.Title>{entry.name}</Card.Title>
@@ -85,13 +87,17 @@ function SpecFolder() {
               </Link>
               </Card.Body>
             </Card>
+            </div>
           );
         }
       })}
+      </div>
       <br/>
+      <div className = "row" style = {{margin: '10px'}}>
       {entries.map((entry) => {
         if(entry.isFolder !== 1){
           return(
+            <div className = "row">
             <CardGroup style={{ width: '10rem' }}>
               <Card >
                 <Card.Img variant="top" src={img_file} />
@@ -115,9 +121,11 @@ function SpecFolder() {
                 </Card.Body>
               </Card>
             </CardGroup>
+            </div>
           )
         }
       })}
+      </div>
       </>
     );
   }
