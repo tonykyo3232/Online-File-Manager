@@ -28,9 +28,9 @@ Frontend
 - [x] Able to delete folders
 - [x] Able to delete folders and its files
 - [x] Able to delete file only
-- [ ] Able to see file's content
-- [ ] Able to upload files
+- [x] Able to upload files
 - [ ] Able to download files
+- [ ] Able to see file's content
 - [ ] Able to sign up for the account
 - [ ] Able to log in the account
 

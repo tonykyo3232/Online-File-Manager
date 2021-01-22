@@ -28,15 +28,47 @@ function Folder() {
       .post("http://localhost:8080/folder", {
         name,
         parentId: 0
-      })
-      handleClose();
-      window.location.reload(); 
+      });
+    handleClose_folder();
+    window.location.reload(); 
   };
 
-  // model
+  // upload file
+  const onSubmit_file = () => {
+    // create form-data format and append values
+    var FormData = require('form-data');
+    var fileFormData = new FormData();
+    fileFormData.append('file', upload_file);
+    fileFormData.append('folderId', 0);
+
+    // post request
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/file',
+      data: fileFormData,
+      headers: {'Content-Type': 'multipart/form-data'}
+      });
+
+    // close modal and refresh the page
+    handleClose_file();
+    window.location.reload(); 
+  };
+
+  // model for folder
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose_folder = () => setShow(false);
+  const handleShow_folder = () => setShow(true);
+
+  // model for file
+  const [show_file, setShow_file] = useState(false);
+  const handleClose_file = () => setShow_file(false);
+  const handleShow_file = () => setShow_file(true);
+
+  let upload_file;
+  // read the uploading file's content
+  const handleFileChosen = (file) => {
+    upload_file = file;
+  };
 
   return (
     <>
@@ -45,13 +77,16 @@ function Folder() {
       </Breadcrumb>
       <h2 style = {{margin: '10px'}}>Online File Manager</h2>
       <p style = {{margin: '10px'}}>
-          <Button variant="outline-primary" onClick={handleShow}>Create Folder</Button>
+          <Button variant="outline-primary" onClick={handleShow_folder}>Create Folder</Button>
+      </p>
+      <p style = {{margin: '10px'}}>
+          <Button variant="outline-primary" onClick={handleShow_file}>Upload File</Button>
       </p>
       <div className = "row" style = {{margin: '10px'}}>
       {entries.map((entry) => {
         if(entry.isFolder !== 0){
           return(
-            <div class="column">
+            <div className="column">
             <Card style={{ width: '13rem'}}>
               <Card.Img variant="top" src="folder.jpg" />
               <Card.Body>
@@ -84,7 +119,7 @@ function Folder() {
       {entries.map((entry) => {
         if(entry.isFolder !== 1){
           return(
-            <div class = "column">
+            <div className = "column">
             <CardGroup style={{ width: '10rem' }}>
               <Card >
                 <Card.Img variant="top" src="file.png" />
@@ -115,9 +150,10 @@ function Folder() {
       })}
       </div>
 
+      {/* modal for creating the folders */}
       <Modal
         show={show}
-        onHide={handleClose}
+        onHide={handleClose_folder}
         backdrop="static"
         keyboard={false}
       >
@@ -128,18 +164,49 @@ function Folder() {
           <Form.Group controlId="formFolderName">
             <Form.Label>Folder Name</Form.Label>
             <Form.Control
-            type="name" 
-            placeholder="folder name"
-            value={name}
-            onChange={(e) => setName(e.target.value)} />
-          </Form.Group>
+              type="name" 
+              placeholder="folder name"
+              value={name}
+              onChange={(e) => setName(e.target.value)} />
+            </Form.Group>
         </Form>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose_folder}>
             Close
           </Button>
           <Button variant="primary" onClick={onSubmit}>
             Create
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      
+      {/* modal for uploading files */}
+      <Modal
+        show={show_file}
+        onHide={handleClose_file}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title >Select the file to upload:</Modal.Title>
+        </Modal.Header>
+        <Form style = {{margin: '10px'}}>
+          <Form.Group>
+            <input
+              type='file'
+              id='FormControlFile'
+              className='input-file'
+              enctype="multipart/form-data"
+              onChange={e => handleFileChosen(e.target.files[0])}
+            />
+          </Form.Group>
+        </Form>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose_file}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={onSubmit_file}>
+            Upload
           </Button>
         </Modal.Footer>
       </Modal>
