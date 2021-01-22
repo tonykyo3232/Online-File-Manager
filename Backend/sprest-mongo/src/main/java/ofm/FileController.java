@@ -84,7 +84,7 @@ public class FileController {
 	   
    // upload the file (not adding any folder)
    // assuming that the file with the same name is the same file
-   @PostMapping("/upload")
+   @PostMapping
    @ResponseStatus(HttpStatus.CREATED)
    public FileModel uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") Integer folderId) throws IOException {
 	   logger.info("Upload files.");
