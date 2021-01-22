@@ -42,7 +42,7 @@ http://localhost:8080/folder
 
 - For File:
 ```
-http://localhost:8080/file/upload
+http://localhost:8080/file
 
 http://localhost:8080/file/{id}/download
 ```
