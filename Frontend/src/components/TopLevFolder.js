@@ -30,28 +30,55 @@ function Folder() {
         parentId: 0
       });
     handleClose_folder();
-    window.location.reload(); 
+    //code before the pause
+    setTimeout(function(){
+      window.location.reload(); 
+    }, 500);
   };
 
   // upload file
-  const onSubmit_file = () => {
+  const onSubmit_file = function (e) {
+    e.preventDefault();
+    
     // create form-data format and append values
     var FormData = require('form-data');
     var fileFormData = new FormData();
     fileFormData.append('file', upload_file);
-    fileFormData.append('folderId', 0);
+    setTimeout(() => {  console.log("uploading..."); }, 3000);
+    fileFormData.append('folderId', '0');
 
-    // post request
-    axios({
+    // postman style
+    var config = {
       method: 'post',
       url: 'http://localhost:8080/file',
-      data: fileFormData,
-      headers: {'Content-Type': 'multipart/form-data'}
-      });
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : fileFormData
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    // // post request
+    // axios({
+    //   method: 'post',
+    //   url: 'http://localhost:8080/file',
+    //   data: fileFormData,
+    //   headers: {'Content-Type': 'multipart/form-data'}
+    // });
 
     // close modal and refresh the page
     handleClose_file();
-    window.location.reload(); 
+    //code before the pause
+    setTimeout(function(){
+      window.location.reload(); 
+    }, 500); 
   };
 
   // model for folder
