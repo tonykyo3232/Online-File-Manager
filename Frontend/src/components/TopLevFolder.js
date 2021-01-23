@@ -125,7 +125,9 @@ function Folder() {
                 <Card.Img variant="top" src="file.png" />
                 <Card.Body>
                   <Card.Title>{entry.name}</Card.Title>
-                  <Button variant="primary">Check</Button>
+                  <Button onClick={() =>{
+                      axios.get(`http://localhost:8080/file/${entry.id}/download`);
+                  }} variant="primary">Download</Button>
                   <Link
                   onClick={() => {
                     axios
@@ -196,7 +198,7 @@ function Folder() {
               type='file'
               id='FormControlFile'
               className='input-file'
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
               onChange={e => handleFileChosen(e.target.files[0])}
             />
           </Form.Group>

@@ -156,7 +156,9 @@ return (
               <Card.Img variant="top" src={img_file} />
               <Card.Body>
                 <Card.Title>{entry.name}</Card.Title>
-                <Button variant="primary">Check</Button>
+                <Button onClick={() =>{
+                      axios.get(`http://localhost:8080/file/${entry.id}/download`);
+                  }} variant="primary">Download</Button>
                 <Link
                   onClick={() => {
                     axios
