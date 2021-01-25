@@ -5,30 +5,30 @@ https://online-file-manager-ofm.herokuapp.com/
 - This project will help users to manager their folders and files. (Similar to Google Drive)
 - It has 2 parts: Backend and Frontend
 
-**Backend Environment:**
+## Backend Environment:
 - IDE: Eclipse
 - Maven Spring Boot for managing REST API
 - MondoDB for managing the Database
 
-**Frontend Environment:**
+## Frontend Environment:
 - Node.js
 - React for single-page development
 
-**Tool for the deployment**
+## Tool for the deployment
 - Heroku
 
-**Database**
+## Database
 - MongoDB Atlas
 
-**Checking list:**
-Backend
+## Checking list:
+**Backend**
 - [x] Connect Maven Spring Boot to MondoDB (Localhost)
 - [x] Able to list files and folders in a list of JSON format
 - [x] Able to upload/delete files and folders
 - [x] Able to upload file in different versions
 - [ ] Able to manage files and folders for different users
 
-Frontend
+**Frontend**
 - [x] Listing top-level and spec-level folders and files
 - [x] Able to go back previous folder
 - [x] Able to create folders
