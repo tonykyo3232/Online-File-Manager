@@ -1,7 +1,7 @@
-#Online File Manager
+# Online File Manager
 https://online-file-manager-ofm.herokuapp.com/
 
-##About
+## About
 - This project will help users to manager their folders and files. (Similar to Google Drive)
 - It has 2 parts: Backend and Frontend
 
