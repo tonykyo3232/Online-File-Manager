@@ -12,6 +12,13 @@
 - Node.js
 - React for single-page development
 
+**Tool for the deployment**
+- Heroku
+- Link: 
+
+**Database**
+- MongoDB Atlas
+
 **Checking list:**
 
 Backend
@@ -26,11 +33,11 @@ Frontend
 - [x] Able to go back previous folder
 - [x] Able to create folders
 - [x] Able to delete folders
-- [x] Able to delete folders and its files
 - [x] Able to delete file only
+- [x] Able to delete folders and its files
 - [x] Able to upload files
-- [x] Able to download files (in specified path)
-- [ ] Able to see file's content
+- [ ] Able to download files
+- [x] Able to see file's content
 - [ ] Able to sign up for the account
 - [ ] Able to log in the account
 

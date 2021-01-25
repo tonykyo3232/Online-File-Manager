@@ -128,6 +128,7 @@ function Folder() {
                         (e) => e.id !== entry.id
                       );
                       setEntries(newEntries);
+                      window.location.reload();
                     });
                 }}
                 to="/topLv"
@@ -152,9 +153,9 @@ function Folder() {
                 <Card.Img variant="top" src="file.png" />
                 <Card.Body>
                   <Card.Title>{entry.name}</Card.Title>
-                  <Button onClick={() =>{
+                  {/* <Button onClick={() =>{
                       axios.get(`http://localhost:8080/file/${entry.id}/download`);
-                  }} variant="primary">Download</Button>
+                  }} variant="primary">Download</Button> */}
                   <Link
                   onClick={() => {
                     axios
@@ -169,6 +170,9 @@ function Folder() {
                   to="/topLv"
                 >
                   <Button variant="outline-danger">Delete</Button>
+                </Link>
+                <Link to={`/image/${entry.id}`}>
+                  <Button variant="info">Check</Button>
                 </Link>
                 </Card.Body>
               </Card>

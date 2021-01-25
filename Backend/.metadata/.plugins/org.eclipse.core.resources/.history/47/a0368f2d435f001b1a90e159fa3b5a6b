@@ -112,16 +112,11 @@ public class FileController {
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteFile(@PathVariable Integer id) {
-		
-		// delete info file
 		FileModel model = fileRepository.findById(id).get();
 		logger.info("Deleting file.");		
 		fileRepository.delete(model);
 		
-		// delete actual file
 		PhotoModel photo = photoRepository.findById(id).get();
-		logger.info("Deleting actual file.");	
-		photoRepository.delete(photo);
 	}
 	   
    // upload the file (not adding any folder)

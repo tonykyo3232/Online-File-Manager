@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Image from 'react-bootstrap/Image'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ShowImage() {
-    let { id} = useParams();
+    let { id } = useParams();
     const [image, setImage] = useState([]);
     useEffect(() => {
         async function fetchData() {
@@ -14,9 +16,19 @@ function ShowImage() {
         fetchData();
       }, [id]);
 
+      function f(){
+        setTimeout(function(){
+          document.getElementById("photo").src = "data:image/png;base64," + image;
+          var img = document.getElementById("photo");
+          img.height = 450;
+          img.width = 500;
+        }, 500)
+      }
+
     return(
-        <>
-            <p>{image}</p>
+        <> 
+            <Image id="photo" src="" />
+            {f()}
         </>
     );
 }

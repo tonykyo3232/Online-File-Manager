@@ -120,7 +120,6 @@ public class FileController {
 		
 		// delete actual file
 		PhotoModel photo = photoRepository.findById(id).get();
-		logger.info("Deleting actual file.");	
 		photoRepository.delete(photo);
 	}
 	   

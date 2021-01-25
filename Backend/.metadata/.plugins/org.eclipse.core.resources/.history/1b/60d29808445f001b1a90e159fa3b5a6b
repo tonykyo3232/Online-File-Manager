@@ -193,9 +193,9 @@ public class FolderController {
 		
 		// if this folder't contain any file, it will only delete folder itself
 		// otherwise delete file(s) through a loop
-		if(photos.size() != 0) {
+		if(files.size() != 0) {
 			for(PhotoModel p: photos) {
-				logger.info("deleteFolder - processing actual file " + p.getName());
+				logger.info("deleteFolder - processing file " + p.getName());
 				photoRepository.delete(p);
 			}
 		}
@@ -231,20 +231,7 @@ public class FolderController {
 				fileRepository.delete(f);
 			}
 		}
-		
-		
-		// after cleaning up its sub folder and files, start deleting the current level files
-		List<PhotoModel> photos = photoRepository.findByParentId(folder.getId());
-		
-		// if this folder't contain any file, it will only delete folder itself
-		// otherwise delete file(s) through a loop
-		if(photos.size() != 0) {
-			for(PhotoModel p: photos) {
-				logger.info("deleteFolder - processing actual file " + p.getName());
-				photoRepository.delete(p);
-			}
-		}
-		
+			
 		// delete the folder at current level
 		folderRepository.delete(folder);
 	}

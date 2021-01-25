@@ -183,9 +183,9 @@ return (
               <Card.Img variant="top" src={img_file} />
               <Card.Body>
                 <Card.Title>{entry.name}</Card.Title>
-                <Button onClick={() =>{
+                {/* <Button onClick={() =>{
                       axios.get(`http://localhost:8080/file/${entry.id}/download`);
-                  }} variant="primary">Download</Button>
+                  }} variant="primary">Download</Button> */}
                 <Link
                   onClick={() => {
                     axios
@@ -200,6 +200,9 @@ return (
                   to={`/SpecFolder/${entry.id}`}
                 >
                   <Button variant="outline-danger">Delete</Button>
+                </Link>
+                <Link to={`/image/${entry.id}`}>
+                  <Button variant="info">Check</Button>
                 </Link>
               </Card.Body>
             </Card>
