@@ -1,0 +1,11 @@
+package ofm;
+
+@Document(collection = "photos")
+public class PhotoModel {
+    @Id
+    private String id;
+    
+    private String title;
+        
+    private Binary image;
+}

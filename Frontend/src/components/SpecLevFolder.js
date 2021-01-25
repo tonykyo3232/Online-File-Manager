@@ -255,6 +255,7 @@ return (
         <input
           type='file'
           id='FormControlFile'
+          accept="image/*"
           className='input-file'
           encType="multipart/form-data"
           onChange={e => handleFileChosen(e.target.files[0])}

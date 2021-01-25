@@ -1,0 +1,15 @@
+package ofm;
+
+import org.bson.types.Binary;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "photos")
+public class PhotoModel {
+    @Id
+    private Integer id;
+    
+    private String title;
+        
+    private Binary image;
+}

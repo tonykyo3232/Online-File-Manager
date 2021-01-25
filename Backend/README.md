@@ -31,6 +31,9 @@ http://localhost:8080/file/{id}
 
 http://localhost:8080/file/{id}/parent
 
+http://localhost:8080/file/{id}/view
+
+http://localhost:8080/file/{id}/image
 ```
 
 

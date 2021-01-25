@@ -3,6 +3,7 @@ package ofm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -14,8 +15,14 @@ import java.util.Optional;
 @RequestMapping("/folder")
 public class FolderController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Autowired
 	private FileRepository fileRepository;
+	
+	@Autowired
 	private FolderRepository folderRepository;
+	
+	@Autowired
 	private IdRepository idRepository;
 
 	public FolderController(FileRepository entry_fileRepository, FolderRepository entry_folderRepository, IdRepository entry_idRepository) {

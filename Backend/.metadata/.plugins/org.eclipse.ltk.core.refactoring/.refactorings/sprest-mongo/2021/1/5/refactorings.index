@@ -1,0 +1,6 @@
+1611509878733	Encapsulate field 'name'
+1611509888613	Encapsulate field 'parentId'
+1611509899100	Encapsulate field 'creationDate'
+1611509905645	Encapsulate field 'isFolder'
+1611509911180	Encapsulate field 'fileVersion'
+1611509951425	Encapsulate field 'image'

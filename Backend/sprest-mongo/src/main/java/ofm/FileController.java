@@ -1,25 +1,31 @@
 package ofm;
 
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 @CrossOrigin
 @RestController
@@ -27,14 +33,23 @@ import javax.servlet.http.HttpServletResponse;
 public class FileController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	@Autowired
 	private FileRepository fileRepository;
+	
+	@Autowired
 	private FolderRepository folderRepository;
+	
+	@Autowired
 	private IdRepository idRepository;
+	
+	@Autowired
+	private PhotoRepository photoRepository;
 
-	public FileController(FileRepository entry_fileRepository, FolderRepository entry_folderRepository, IdRepository entry_idRepository) {
+	public FileController(FileRepository entry_fileRepository, FolderRepository entry_folderRepository, IdRepository entry_idRepository, PhotoRepository entry_photoRepository) {
 		this.fileRepository = entry_fileRepository;
 		this.folderRepository = entry_folderRepository;
 		this.idRepository = entry_idRepository;
+		this.photoRepository = entry_photoRepository;
 	}
 		
 	// Show All Files
@@ -72,7 +87,27 @@ public class FileController {
 		Optional<FolderModel> belongFolder = folderRepository.findById(file.get().getParentId());
 		return belongFolder.get();
 	}
+
+	// get the Photo
+	@GetMapping("/{id}/image")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public List<PhotoModel> getImage(@PathVariable Integer id) throws IOException {
+		logger.info("Viewing file with ID: {}.", id);
+		PhotoModel p = photoRepository.findById(id).get();
+		List<PhotoModel> photo = new ArrayList<PhotoModel>();
+		photo.add(p);
+		return photo;
+	}
 		
+	// view the file in byte []
+	@GetMapping("/{id}/view")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public String viewFile(@PathVariable Integer id) throws IOException {
+		logger.info("Viewing file with ID: {}.", id);
+		PhotoModel photo = photoRepository.findById(id).get();
+		return Base64.getEncoder().encodeToString(photo.getImage().getData());
+	}
+	
 	// delete a file
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -108,44 +143,22 @@ public class FileController {
 			   curr_version++;
 		   }
 	   }
-	   
-	   // upload the file to local disk
-	   File uploadedFile;
-	   
-	   if(folderId == 0) {
-		   if(curr_version == 1) {
-			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + file.getOriginalFilename());
-		   }
-		   else {
-			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + "(" + curr_version + ")" + file.getOriginalFilename());
-		   }
-	   }
-	   else {
-		   if(curr_version == 1) {
-			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + "Folder(" + folder.getName() + ")-" + file.getOriginalFilename());
-		   }
-		   else {
-			   uploadedFile = new File(System.getProperty("user.dir") + "/fileIO/localDB/" + "Folder(" + folder.getName() + ")-" +"(" + curr_version + ")" + file.getOriginalFilename());
-		   }
-	   }
-	   
-	   uploadedFile.createNewFile();
-		
-	   try (FileOutputStream fout = new FileOutputStream(uploadedFile)) {
-			fout.write(file.getBytes());
-	   }catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+	   		
 	   // find the Id value for the new file
 	   IdModel idModel = idRepository.findById(1).get();
 	   Integer id = idModel.getValue();
+	 
+	   // upload image file to MongoDB (bson)
+       PhotoModel photo = new PhotoModel();
+       photo.setId(id);
+       photo.setImage(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+       photo.setName(file.getOriginalFilename());
+       photo.setParentId(folderId);
+       photo.setCreationDate(new Date());
+       photo.setFileVersion(curr_version);
+       photoRepository.save(photo);
 	   
-	   // update the id for the next post request
-	   idModel.setValue(id+1);
-	   idRepository.save(idModel);
-	   
-	   // Upload the file info to MongoDB
+	   // Upload the file info to MongoDB (json)
 	   FileModel newFile = new FileModel();
 	   newFile.setName(file.getOriginalFilename());
 	   newFile.setFileVersion(curr_version);
@@ -153,90 +166,100 @@ public class FileController {
 	   newFile.setId(id);
 	   newFile.setCreationDate(new Date());
 	   logger.info(newFile.toString());
+	   
+	   // update the id for the next post request
+	   idModel.setValue(id+1);
+	   idRepository.save(idModel);
+	   
 	   return fileRepository.save(newFile);
+	   
+	   // this will return String of image's value in base64 byte []
+//	   PhotoModel p = photoRepository.findById(id).get();
+//	   Base64.getEncoder().encodeToString(p.getImage().getData());
+	   
 	}
    
-   	// download the file
- 	// given the file id, it can download the file at any version and level
- 	@GetMapping("/{file_id}/download")
- 	public void download(HttpServletRequest request, HttpServletResponse response,
- 			@PathVariable int file_id) 
- 			throws ServletException, IOException {
- 		
- 		FileModel file = fileRepository.findById(file_id).get(); 
- 				
-        String fileType = findValue("([./].*)",file.getName());
-        String fileName = findValue("([a-zA-Z_0-9]*)", file.getName());
-        
-        if(fileType.equals("NOT FOUND!") == false && fileName.equals("NOT FOUND!") == false) {
-         	  // You must tell the browser the file type you are going to send
-         	  // for example application/pdf, text/plain, text/html, image/jpg
-               
-         	  String typeOption = "";
-         	  if(fileType.equals("jpg") || fileType.equals("jepg") || 
-         			  fileType.equals("JPG") || fileType.equals("JEPG")) {
-         		  typeOption = "image/jpeg";
-  	      	  }
-  	      	  else if(fileType.equals("txt")) {
-  	      		typeOption = "text/plain";
-  	      	  }
-  	      	  else if(fileType.equals("pdf")) {
-  	      		typeOption = "application/pdf";
-  	      	  }
-  	      	  response.setContentType(typeOption);
-
-              // Make sure to show the download dialog
-              response.setHeader("Content-disposition","attachment; filename=" + fileName + "." + fileType);
-
-              // Assume file name is retrieved from database
-              // For example D:\\file\\test.pdf
-              // check if there's any version
-              File my_file;
-              File downloadFile;
-              String fileFormat = "";
-               
-              // if file doesn't belongs to a folder
-              if(file.getParentId() == 0) {
-                if(file.getFileVersion() == 1) {
-                	fileFormat = file.getName();
-               	}
-               	else {
-               		fileFormat = "(" + file.getFileVersion() + ")" + file.getName();
-               	}
-              }
-              // if file belongs to a folder
-              else {
-	              // get file's belong folder   
-	              FolderModel folder = folderRepository.findById(file.getParentId()).get();
-	              if(file.getFileVersion() == 1) {
-	            	  fileFormat = "Folder(" + folder.getName() + ")-" + file.getName();
-	              }
-	              else {
-	               		fileFormat = "Folder(" + folder.getName() + ")-(" + file.getFileVersion() + ")" + file.getName();  
-	              }
-              }
-                           
-              my_file = new File( System.getProperty("user.dir") + "/fileIO/localDB/" + fileFormat);
-           	  downloadFile = new File( System.getProperty("user.dir") + "/fileIO/download/" + fileFormat);
-               
-              // download the file to local disk
-              downloadFile.createNewFile(); 		
-       		  FileOutputStream fout = new FileOutputStream(downloadFile);
-      
-              // Send the response of file to DB 
-              OutputStream out = response.getOutputStream();
-              FileInputStream in = new FileInputStream(my_file);
-              byte[] buffer = new byte[4096];
-              int length;
-              while ((length = in.read(buffer)) > 0){
-                 out.write(buffer, 0, length);
-                 fout.write(buffer, 0, length);
-              }
-              in.close();
-              out.flush();
-              fout.close();
-        }
- 	}
+//   	// download the file
+// 	// given the file id, it can download the file at any version and level
+// 	@GetMapping("/{file_id}/download")
+// 	public void download(HttpServletRequest request, HttpServletResponse response,
+// 			@PathVariable int file_id) 
+// 			throws ServletException, IOException {
+// 		
+// 		FileModel file = fileRepository.findById(file_id).get(); 
+// 				
+//        String fileType = findValue("([./].*)",file.getName());
+//        String fileName = findValue("([a-zA-Z_0-9]*)", file.getName());
+//        
+//        if(fileType.equals("NOT FOUND!") == false && fileName.equals("NOT FOUND!") == false) {
+//         	  // You must tell the browser the file type you are going to send
+//         	  // for example application/pdf, text/plain, text/html, image/jpg
+//               
+//         	  String typeOption = "";
+//         	  if(fileType.equals("jpg") || fileType.equals("jepg") || 
+//         			  fileType.equals("JPG") || fileType.equals("JEPG")) {
+//         		  typeOption = "image/jpeg";
+//  	      	  }
+//  	      	  else if(fileType.equals("txt")) {
+//  	      		typeOption = "text/plain";
+//  	      	  }
+//  	      	  else if(fileType.equals("pdf")) {
+//  	      		typeOption = "application/pdf";
+//  	      	  }
+//  	      	  response.setContentType(typeOption);
+//
+//              // Make sure to show the download dialog
+//              response.setHeader("Content-disposition","attachment; filename=" + fileName + "." + fileType);
+//
+//              // Assume file name is retrieved from database
+//              // For example D:\\file\\test.pdf
+//              // check if there's any version
+//              File my_file;
+//              File downloadFile;
+//              String fileFormat = "";
+//               
+//              // if file doesn't belongs to a folder
+//              if(file.getParentId() == 0) {
+//                if(file.getFileVersion() == 1) {
+//                	fileFormat = file.getName();
+//               	}
+//               	else {
+//               		fileFormat = "(" + file.getFileVersion() + ")" + file.getName();
+//               	}
+//              }
+//              // if file belongs to a folder
+//              else {
+//	              // get file's belong folder   
+//	              FolderModel folder = folderRepository.findById(file.getParentId()).get();
+//	              if(file.getFileVersion() == 1) {
+//	            	  fileFormat = "Folder(" + folder.getName() + ")-" + file.getName();
+//	              }
+//	              else {
+//	               		fileFormat = "Folder(" + folder.getName() + ")-(" + file.getFileVersion() + ")" + file.getName();  
+//	              }
+//              }
+//                           
+//              my_file = new File( System.getProperty("user.dir") + "/fileIO/localDB/" + fileFormat);
+//           	  downloadFile = new File( System.getProperty("user.dir") + "/fileIO/download/" + fileFormat);
+//               
+//              // download the file to local disk
+//              downloadFile.createNewFile(); 		
+//       		  FileOutputStream fout = new FileOutputStream(downloadFile);
+//      
+//              // Send the response of file to DB 
+//              OutputStream out = response.getOutputStream();
+//              FileInputStream in = new FileInputStream(my_file);
+//              byte[] buffer = new byte[4096];
+//              int length;
+//              while ((length = in.read(buffer)) > 0){
+//                 out.write(buffer, 0, length);
+//                 fout.write(buffer, 0, length);
+//              }
+//              in.close();
+//              out.flush();
+//              fout.close();
+//        }
+// 	}
   
  	// helper function
   	// use regular expression to find the wanted value

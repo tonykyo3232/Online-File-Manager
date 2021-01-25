@@ -1,0 +1,13 @@
+package ofm;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "photos")
+public class PhotoModel {
+    @Id
+    private String id;
+    
+    private String title;
+        
+    private Binary image;
+}
