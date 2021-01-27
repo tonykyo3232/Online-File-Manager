@@ -8,7 +8,10 @@ import CardGroup from 'react-bootstrap/CardGroup'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { AiFillDelete } from "react-icons/ai";
+import { AiTwotoneFolderOpen } from "react-icons/ai";
+import { IoMdOpen } from "react-icons/io";
+import { FiDownload } from "react-icons/fi";
 import img_folder from "./img/folder.jpg";
 import img_file from "./img/file.png";
 
@@ -149,7 +152,7 @@ return (
             <Card.Img variant="top" src={img_folder} />
             <Card.Body>
               <Card.Title>{entry.name}</Card.Title>
-              <Link to = {`/SpecFolder/${entry.id}`}><Button variant="primary">go</Button></Link>
+              <Link to = {`/SpecFolder/${entry.id}`}><Button variant="primary">go <AiTwotoneFolderOpen/></Button></Link>
               <Link
               onClick={() => {
                 axios
@@ -163,7 +166,7 @@ return (
               }}
               to={getVal()}
             >
-              <Button variant="outline-danger">Delete</Button>
+              <Button variant="outline-danger">Delete <AiFillDelete/></Button>
             </Link>
             </Card.Body>
           </Card>
@@ -186,6 +189,16 @@ return (
                 {/* <Button onClick={() =>{
                       axios.get(`http://localhost:8080/file/${entry.id}/download`);
                   }} variant="primary">Download</Button> */}
+              
+                {/*Check file*/}
+                <Link to={`/image/${entry.id}`}>
+                  <Button variant="info" style={{height: '40px', width : '120px'}}>Check <IoMdOpen/></Button>
+                </Link>
+
+                {/*Download file*/}
+                <Button style={{height: '40px', width : '120px'}}>Download <FiDownload/></Button>
+
+                {/*Delete file*/}
                 <Link
                   onClick={() => {
                     axios
@@ -199,10 +212,7 @@ return (
                   }}
                   to={`/SpecFolder/${entry.id}`}
                 >
-                  <Button variant="outline-danger">Delete</Button>
-                </Link>
-                <Link to={`/image/${entry.id}`}>
-                  <Button variant="info">Check</Button>
+                  <Button variant="outline-danger" style={{height: '40px', width : '120px'}}>Delete <AiFillDelete/></Button>
                 </Link>
               </Card.Body>
             </Card>

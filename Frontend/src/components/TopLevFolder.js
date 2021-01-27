@@ -8,6 +8,10 @@ import CardGroup from 'react-bootstrap/CardGroup'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { AiFillDelete } from "react-icons/ai";
+import { AiTwotoneFolderOpen } from "react-icons/ai";
+import { IoMdOpen } from "react-icons/io";
+import { FiDownload } from "react-icons/fi";
 
 function Folder() {
   
@@ -118,7 +122,7 @@ function Folder() {
               <Card.Img variant="top" src="folder.jpg" />
               <Card.Body>
                 <Card.Title>{entry.name}</Card.Title>
-                <Link to = {`/SpecFolder/${entry.id}`}><Button variant="primary">go</Button></Link>
+                <Link to = {`/SpecFolder/${entry.id}`}><Button variant="primary">go <AiTwotoneFolderOpen/></Button></Link>
                 <Link
                 onClick={() => {
                   axios
@@ -133,7 +137,7 @@ function Folder() {
                 }}
                 to="/topLv"
               >
-                <Button variant="outline-danger">Delete</Button>
+                <Button variant="outline-danger">Delete<AiFillDelete/></Button>
               </Link>
               </Card.Body>
             </Card>
@@ -153,27 +157,34 @@ function Folder() {
                 <Card.Img variant="top" src="file.png" />
                 <Card.Body>
                   <Card.Title>{entry.name}</Card.Title>
-                  {/* <Button onClick={() =>{
-                      axios.get(`http://localhost:8080/file/${entry.id}/download`);
-                  }} variant="primary">Download</Button> */}
-                  <Link
-                  onClick={() => {
-                    axios
-                      .delete(`http://localhost:8080/file/${entry.id}`)
-                      .then(() => {
-                        let newEntries = entries.filter(
-                          (e) => e.id !== entry.id
-                        );
-                        setEntries(newEntries);
-                      });
-                  }}
-                  to="/topLv"
-                >
-                  <Button variant="outline-danger">Delete</Button>
-                </Link>
-                <Link to={`/image/${entry.id}`}>
-                  <Button variant="info">Check</Button>
-                </Link>
+
+                    {/*Check file*/}
+                    <Link to={`/image/${entry.id}`}>
+                      <Button variant="info" style={{height: '40px', width : '120px'}}>Check <IoMdOpen/></Button>
+                    </Link>
+
+                    {/*Download file*/}
+                    {/* <Button onClick={() =>{
+                        axios.get(`http://localhost:8080/file/${entry.id}/download`);
+                    }} variant="primary">Download</Button> */}
+                    <Button style={{height: '40px', width : '120px'}}>Download <FiDownload/></Button>
+                
+                    {/*Delete file*/}
+                    <Link
+                      onClick={() => {
+                        axios
+                          .delete(`http://localhost:8080/file/${entry.id}`)
+                          .then(() => {
+                            let newEntries = entries.filter(
+                              (e) => e.id !== entry.id
+                            );
+                            setEntries(newEntries);
+                          });
+                      }}
+                      to="/topLv"
+                    >
+                      <Button variant="outline-danger" style={{height: '40px', width : '120px'}}>Delete <AiFillDelete/></Button>
+                    </Link>
                 </Card.Body>
               </Card>
             </CardGroup>

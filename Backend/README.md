@@ -1,14 +1,14 @@
-**To run the Spring Boot**
+# To run the Spring Boot
 
 - Run SpRestMongoApplication.java
 
-**To test the router methods**
+# To test the router methods**
 
 - Use Postman with these endpoints
 
 
-**GET Request**
-- For Folder:
+## GET Request
+**For Folder:**
 ```
 http://localhost:8080/folder
 
@@ -21,7 +21,7 @@ http://localhost:8080/folder/{id}/single_folder
 http://localhost:8080/folder/{id}/parent
 ```
 
-- For File:
+**For File:**
 ```
 http://localhost:8080/file
 
@@ -37,32 +37,32 @@ http://localhost:8080/file/{id}/image
 ```
 
 
-**POST Request**
-- For Folder:
+## POST Request
+**For Folder:**
 ```
 http://localhost:8080/folder
 ```
 
-- For File:
+**For File:**
 ```
 http://localhost:8080/file
 
 http://localhost:8080/file/{id}/download
 ```
 
-**Delete Request**
-- For Folder:
+## Delete Request
+**For Folder:**
 ```
 http://localhost:8080/folder/{id}
 ```
 
-- For File:
+**For File:**
 ```
 http://localhost:8080/file/{id}
 ```
 
-**Patch Request**
-- For IdSeq:
+## Patch Request
+**For IdSeq:**
 ```
 http://localhost:8080/id/init
 ```

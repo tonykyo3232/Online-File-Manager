@@ -41,3 +41,6 @@ https://online-file-manager-ofm.herokuapp.com/
 - [ ] Able to sign up for the account
 - [ ] Able to log in the account
 
+## Contact Information
+Personal Email: tonykyo3232@gmail.com
+School Email: tlee78@calstatela.edu
