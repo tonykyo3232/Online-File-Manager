@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Image from 'react-bootstrap/Image'
-import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ShowImage() {
@@ -20,13 +19,18 @@ function ShowImage() {
       function f(){
         setTimeout(function(){
           document.getElementById("photo").src = "data:image/png;base64," + image;
+          var img = document.getElementById("photo");
+          img.width = 800;
+          img.height = 750;
         }, 500)
       }
 
     return(
         <> 
-            <Image id="photo" src="" />
-            {f()}
+          <div className = "column">
+              <Image id="photo" src="" />
+              {f()}
+          </div>
         </>
     );
 }
