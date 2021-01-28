@@ -17,6 +17,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import javax.imageio.ImageIO;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 @CrossOrigin
 @RestController
@@ -121,6 +130,12 @@ public class FileController {
    @ResponseStatus(HttpStatus.CREATED)
    public FileModel uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("folderId") Integer folderId) throws IOException {
 	   logger.info("Upload files.");
+
+	   System.out.println("folderId is: " + folderId);
+	   FolderModel folder = null;
+	   if(folderId != 0) {
+		   folder = folderRepository.findById(folderId).get();
+	   }
 	   
 	   // to check the file version, we need to check
 	   // if there is a file with same name and in same folder

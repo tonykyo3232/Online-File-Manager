@@ -35,12 +35,12 @@ https://online-file-manager-ofm.herokuapp.com/
 - [x] Able to delete folders
 - [x] Able to delete file only
 - [x] Able to delete folders and its files
-- [x] Able to upload files
-- [ ] Able to download files
+- [x] Able to upload images
+- [x] Able to download images
 - [x] Able to see file's content
 - [ ] Able to sign up for the account
 - [ ] Able to log in the account
 
 ## Contact Information
-Personal Email: tonykyo3232@gmail.com
-School Email: tlee78@calstatela.edu
+- Personal Email: tonykyo3232@gmail.com
+- School Email: tlee78@calstatela.edu

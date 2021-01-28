@@ -186,18 +186,12 @@ return (
               <Card.Img variant="top" src={img_file} />
               <Card.Body>
                 <Card.Title>{entry.name}</Card.Title>
-                {/* <Button onClick={() =>{
-                      axios.get(`http://localhost:8080/file/${entry.id}/download`);
-                  }} variant="primary">Download</Button> */}
               
                 {/*Check file*/}
                 <Link to={`/image/${entry.id}`}>
                   <Button variant="info" style={{height: '40px', width : '120px'}}>Check <IoMdOpen/></Button>
                 </Link>
-
-                {/*Download file*/}
-                <Button style={{height: '40px', width : '120px'}}>Download <FiDownload/></Button>
-
+                
                 {/*Delete file*/}
                 <Link
                   onClick={() => {
