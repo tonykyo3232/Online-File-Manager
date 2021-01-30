@@ -19,6 +19,8 @@ http://localhost:8080/folder/{id}
 http://localhost:8080/folder/{id}/single_folder
 
 http://localhost:8080/folder/{id}/parent
+
+http://localhost:8080/folder/{id}/images
 ```
 
 **For File:**
