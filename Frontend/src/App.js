@@ -4,11 +4,19 @@ import TopLvFolder from "./components/TopLevFolder";
 import SpecFolder from "./components/SpecLevFolder";
 import HomePage from "./components/HomePage";
 import Image from "./components/ShowImage";
+import Login from "./components/LoginForm";
+import SignUp from "./components/SignUpForm";
 
 function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/signUp">
+          <SignUp />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
         <Route path="/image/:id">
           <Image />
         </Route>

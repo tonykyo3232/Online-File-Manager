@@ -11,7 +11,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { AiFillDelete } from "react-icons/ai";
 import { AiTwotoneFolderOpen } from "react-icons/ai";
 import { IoMdOpen } from "react-icons/io";
-import { FiDownload } from "react-icons/fi";
 import img_folder from "./img/folder.jpg";
 import img_file from "./img/file.png";
 
