@@ -8,7 +8,7 @@ https://online-file-manager-ofm.herokuapp.com/
 ## Backend Environment:
 - IDE: Eclipse
 - Maven Spring Boot for managing REST API
-- MondoDB for managing the Database
+- MongoDB for managing the Database
 
 ## Frontend Environment:
 - Node.js
