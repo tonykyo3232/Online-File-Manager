@@ -9,8 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class UserModel {
 	
     @Id
-    private Integer id;
+    private String id;
     
+    private String email;
     private String password;
     private String name;
     private Date creationDate = new Date();
@@ -19,11 +20,11 @@ public class UserModel {
      * Getter and Setter methods
      */
     
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
     
@@ -34,7 +35,6 @@ public class UserModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	
 	public Date getCreationDate() {
 		return creationDate;
@@ -50,5 +50,13 @@ public class UserModel {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

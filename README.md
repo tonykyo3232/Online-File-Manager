@@ -22,7 +22,7 @@ https://online-file-manager-ofm.herokuapp.com/
 
 ## Checking list:
 **Backend**
-- [x] Connect Maven Spring Boot to MondoDB (Localhost)
+- [x] Connect Maven Spring Boot to MongoDB (Localhost)
 - [x] Able to list files and folders in a list of JSON format
 - [x] Able to upload/delete files and folders
 - [x] Able to upload file in different versions
