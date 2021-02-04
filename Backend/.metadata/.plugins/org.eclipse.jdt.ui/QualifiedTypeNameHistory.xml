@@ -16,7 +16,6 @@
     <fullyQualifiedTypeName name="java.io.OutputStream"/>
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
     <fullyQualifiedTypeName name="java.util.NoSuchElementException"/>
-    <fullyQualifiedTypeName name="ofm.IdModel"/>
     <fullyQualifiedTypeName name="org.springframework.data.mongodb.core.mapping.Document"/>
     <fullyQualifiedTypeName name="org.springframework.data.annotation.Id"/>
     <fullyQualifiedTypeName name="org.bson.BsonBinarySubType"/>
@@ -31,4 +30,9 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.CrossOrigin"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="ofm.PhotoModel"/>
+    <fullyQualifiedTypeName name="ofm.IdModel"/>
+    <fullyQualifiedTypeName name="ofm.FileModel"/>
+    <fullyQualifiedTypeName name="ofm.UserModel"/>
+    <fullyQualifiedTypeName name="ofm.FolderModel"/>
 </qualifiedTypeNameHistroy>
