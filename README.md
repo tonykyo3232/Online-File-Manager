@@ -9,16 +9,20 @@ https://online-file-manager-ofm.herokuapp.com/
 - IDE: Eclipse
 - Maven Spring Boot for managing REST API
 - MongoDB for managing the Database
+- OAuth 2 for protecting the backend app (planning)
 
 ## Frontend Environment:
 - Node.js
 - React for single-page development
 
-## Tool for the deployment
+## Tool for the deployment online
 - Heroku
 
 ## Database
 - MongoDB Atlas
+
+## Spring Boot Authoritarian
+- OAuth 2 
 
 ## Checking list:
 **Backend**
